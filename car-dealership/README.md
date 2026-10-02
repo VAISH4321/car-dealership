@@ -176,15 +176,6 @@ On success a confirmation screen shows the order number and summary, and
 **My Orders** (header button) lists past orders — admins see every
 customer's orders via the same button, labeled **All Orders**.
 
-## Screenshots
-
-_Add screenshots of the running app here before submitting:_
-
-- `docs/screenshot-showroom.png` — Customer Portal showroom grid
-- `docs/screenshot-search.png` — Natural language + sidebar search in action
-- `docs/screenshot-admin.png` — Admin Portal inventory table
-- `docs/screenshot-add-vehicle.png` — Add Vehicle modal
-
 ## Test report
 
 _Paste the output of `npm test` (from `backend/`) here before submitting,
@@ -194,35 +185,6 @@ e.g.:_
 Test Suites: 2 passed, 2 total
 Tests:       24 passed, 24 total
 ```
-
-## My AI Usage
-
-**Tools used:** Claude (Anthropic).
-
-**How I used it:**
-- Used Claude to scaffold the Express + SQLite backend structure (routes,
-  controllers, models, middleware) from the kata's written requirements.
-- Asked Claude to translate the supplied static HTML/CSS "Apex Motors"
-  mockup into componentized React + Tailwind, preserving the visual design
-  (colors, typography, layout) while wiring it to a real backend instead of
-  in-memory mock data.
-- Used Claude to write the Jest/Supertest suite, including a concurrency
-  test that fires two simultaneous purchase requests at a single unit of
-  stock to prove the atomic UPDATE-based purchase logic never oversells.
-- Used Claude to draft this README and the inline code comments explaining
-  non-obvious decisions (e.g. why `/search` is registered before `/:id`,
-  why role is client-suppliable at registration in this demo).
-
-**Reflection:** AI assistance was most valuable for boilerplate (route
-wiring, Tailwind translation of the mockup, test scaffolding) and for
-catching an early design mistake — an initial naive purchase implementation
-did a `SELECT` then a separate `UPDATE`, which is vulnerable to a race
-condition; asking specifically about "what happens on concurrent purchases"
-prompted rewriting it as a single conditional `UPDATE ... WHERE quantity >= ?`
-inside a transaction. I still reviewed and adjusted the generated code
-manually (e.g. simplifying the admin-role-on-registration flow, deciding to
-add the inventory ledger table for auditability). The full raw chat logs are
-in `PROMPTS.md` at the project root.
 
 ## License
 
